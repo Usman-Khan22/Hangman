@@ -2,9 +2,16 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+# define MAX_WRONG_GUESSES 6
+
+void generateWord(char* word);
+void initGuessedWord(char* guessedWord, char* word);
 
 int main() {
-
+	printf("======HANGMAN GAME======\n");
+    char word[50], guessedWord[50];
+	initGuessedWord(guessedWord, word);
+    generateWord(word);
     return 0;
 }
 
@@ -31,6 +38,15 @@ void generateWord(char* word) {
     
     index = rand() % size;
     strcpy(word, arrWords[index]);
-    strcspn(word, "\n");  
-    
+    strcspn(word, "\n");     
+}
+
+void initGuessedWord(char* guessedWord, char* word) {
+    int i;
+    int len = strlen(word); 
+    for (i = 0; i < len; i++) {
+        guessedWord[i] = '_';
+        printf("%c ", guessedWord[i]);
+    }
+    guessedWord[len] = '\0';
 }

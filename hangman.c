@@ -8,15 +8,17 @@ void generateWord(char* word);
 void initGuessedWord(char* guessedWord, char* word);
 int checkInput(char* guessedWord, char* guessedLetters, char* word, int wrong_attempts);
 void printGuessedWord(char* guessedWord);
+void addGuess(char* guessedLetters, char guess);
 
 int main() {
 	printf("======HANGMAN GAME======\n");
-    char word[50], guessedWord[50], guessedLetters[50];
+    char word[50], guessedWord[50], guessedLetters[50] = {'\0'};
     int wrong_attempts = 0;
+    srand(time(NULL));
 
+    generateWord(word);
 	initGuessedWord(guessedWord, word);
     printGuessedWord(guessedWord);
-    generateWord(word);
     wrong_attempts = checkInput(guessedWord, guessedLetters, word, wrong_attempts);
 
     return 0;
@@ -27,7 +29,6 @@ void generateWord(char* word) {
     char arrWords[200][50];
     int size = 0, index;
     
-    srand(time(NULL));
     
     fptr = fopen("words.txt", "r");
     
@@ -45,7 +46,7 @@ void generateWord(char* word) {
     
     index = rand() % size;
     strcpy(word, arrWords[index]);
-    strcspn(word, "\n");     
+    word[strcspn(word, "\n")] = '\0';     
 }
 
 void initGuessedWord(char* guessedWord, char* word) {
@@ -58,10 +59,24 @@ void initGuessedWord(char* guessedWord, char* word) {
     guessedWord[len] = '\0';
 }
 
-int checkInput(char* guessedWord, char* guessedLetters, char* word, int wrong_attempts) {
-	char guess = guessedLetters[strlen(guessedLetters) - 1];
-    char* ptr = word;
+void printGuessedWord(char* guessedWord) {
     int i;
+    for (i = 0; i < strlen(guessedWord); i++) {
+        printf("%c ", guessedWord[i]);
+    }
+    printf("\n");
+}
+
+void addGuess(char* guessedLetters, char guess) {
+    int len = strlen(guessedLetters);
+    guessedLetters[len] = guess;
+    guessedLetters[len + 1] = '\0';
+}
+
+
+int checkInput(char* guessedWord, char* guessedLetters, char* word, int wrong_attempts) {
+	char guess;
+    int i, found = 0;
 
     printf("Make a guess: ");
     scanf(" %c", &guess);
@@ -69,19 +84,17 @@ int checkInput(char* guessedWord, char* guessedLetters, char* word, int wrong_at
         printf("You already guessed that letter - Try again: ");
         scanf(" %c", &guess);
     }
+    addGuess(guessedLetters, guess);
 
-    while (ptr = strchr(word, guess)) {
-        i = ptr - word;
-        guessedWord[i] = guess;
+    for (i = 0; word[i] != '\0'; i++){
+        if (word[i] == guess) {
+            guessedWord[i] = guess;
+            found = 1;
+        }
     }
-    if (ptr == NULL) wrong_attempts++;
+    if (found == 0) wrong_attempts++;
     printGuessedWord(guessedWord);
+    
     return wrong_attempts;
 }
 
-void printGuessedWord(char* guessedWord) {
-    int i;
-    for (i = 0; i < strlen(guessedWord); i++) {
-        printf("%c", guessedWord);
-    }
-}

@@ -9,15 +9,36 @@ void initGuessedWord(char* guessedWord, char* word);
 void printGuessedWord(char* guessedWord);
 void addGuess(char* guessedLetters, char guess);
 char checkInput(char* guessedLetters, char* word);
+int logic(char* word, char guess, char* guessedWord);
 
 int main() {
 	printf("======HANGMAN GAME======\n");
     char word[50], guessedWord[50], guessedLetters[50] = {'\0'};
+    char guess;
     int wrong_attempts = 0;
     srand(time(NULL));
 
+    generateWord(word);
+    initGuessedWord(guessedWord, word);
+
+    while (1) {
+        printGuessedWord(guessedWord);
+        guess = checkInput(guessedLetters, word);
+        wrong_attempts = logic(word, guess, guessedWord);
+        if (strcmp(guessedWord, word) == 0) {
+            printf("Congratulations! You win\n");
+            break;
+        }
+
+        if (wrong_attempts == MAX_ATTEMPTS) {
+            printf("OOPS! You lost\n");
+            printf("The word was: %s", word);
+            break;
+        }
+    }
+
     
-    
+
     return 0;
 }
 
@@ -53,7 +74,7 @@ void initGuessedWord(char* guessedWord, char* word) {
         guessedWord[i] = '_';
         printf("%c ", guessedWord[i]);
     }
-    guessedWord[len] = '\0';
+    guessedWord[len-1] = '\0';
 }
 
 void printGuessedWord(char* guessedWord) {
@@ -86,8 +107,9 @@ char checkInput(char* guessedLetters, char* word) {
     return guess;
 }
 
-int logic(char* word, char guess, char* guessedWord, int wrong_attempts) {
+int logic(char* word, char guess, char* guessedWord) {
     int i, found = 0;
+    static int wrong_attempts = 0;
 
     for (i = 0; word[i] != '\0'; i++){
         if (word[i] == guess) {
@@ -95,8 +117,11 @@ int logic(char* word, char guess, char* guessedWord, int wrong_attempts) {
             found = 1;
         }
     }
-    if (found == 0) wrong_attempts++;
-    printGuessedWord(guessedWord);
+    if (found == 0) {
+        printf("oops! wrong guess\n");
+        printf("%d chances left\n", MAX_ATTEMPTS - wrong_attempts);
+        wrong_attempts++;
+    }
     
     return wrong_attempts;
 }

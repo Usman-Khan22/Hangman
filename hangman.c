@@ -11,6 +11,7 @@ void printGuessedWord(char* guessedWord);
 void addGuess(char* guessedLetters, char guess);
 char checkInput(char* guessedLetters, char* word);
 int logic(char* word, char guess, char* guessedWord);
+void drawHangman(int wrong_attempts);
 
 int main() {
 	printf("======HANGMAN GAME======\n");
@@ -26,6 +27,7 @@ int main() {
         printGuessedWord(guessedWord);
         guess = checkInput(guessedLetters, word);
         wrong_attempts = logic(word, guess, guessedWord);
+        drawHangman(wrong_attempts);
         if (strcmp(guessedWord, word) == 0) {
             printGuessedWord(guessedWord);
             printf("Congratulations! You win\n");
@@ -80,10 +82,11 @@ void initGuessedWord(char* guessedWord, char* word) {
 
 void printGuessedWord(char* guessedWord) {
     int i;
+    printf("word: ");
     for (i = 0; i < strlen(guessedWord); i++) {
         printf("%c ", guessedWord[i]);
     }
-    printf("\n");
+    printf("\n\n");
 }
 
 void addGuess(char* guessedLetters, char guess) {
@@ -120,13 +123,91 @@ int logic(char* word, char guess, char* guessedWord) {
         }
     }
     if (found == 0) {
+        printf("-------------\n");
         printf("oops! wrong guess\n");
         printf("%d chances left\n", MAX_ATTEMPTS - 1 - wrong_attempts);
+        printf("-------------\n");
         wrong_attempts++;
     }
     else {
+        printf("-------------\n");
         printf("You Guessed right\n");
+        printf("-------------\n");
     }
     
     return wrong_attempts;
+}
+
+void drawHangman(int wrong_attempts) {
+    switch (wrong_attempts) {
+        case 0:
+            printf("\t\t\t  +---+\n");
+            printf("\t\t\t  |   |\n");
+            printf("\t\t\t      |\n");
+            printf("\t\t\t      |\n");
+            printf("\t\t\t      |\n");
+            printf("\t\t\t      |\n");
+            printf("\t\t\t=========\n");
+            break;
+
+        case 1:
+            printf("\t\t\t  +---+\n");
+            printf("\t\t\t  |   |\n");
+            printf("\t\t\t  O   |\n");
+            printf("\t\t\t      |\n");
+            printf("\t\t\t      |\n");
+            printf("\t\t\t      |\n");
+            printf("\t\t\t=========\n");
+            break;
+
+        case 2:
+            printf("\t\t\t  +---+\n");
+            printf("\t\t\t  |   |\n");
+            printf("\t\t\t  O   |\n");
+            printf("\t\t\t  |   |\n");
+            printf("\t\t\t      |\n");
+            printf("\t\t\t      |\n");
+            printf("\t\t\t=========\n");
+            break;
+
+        case 3:
+            printf("\t\t\t  +---+\n");
+            printf("\t\t\t  |   |\n");
+            printf("\t\t\t  O   |\n");
+            printf("\t\t\t /|   |\n");
+            printf("\t\t\t      |\n");
+            printf("\t\t\t      |\n");
+            printf("\t\t\t=========\n");
+            break;
+
+        case 4:
+            printf("\t\t\t  +---+\n");
+            printf("\t\t\t  |   |\n");
+            printf("\t\t\t  O   |\n");
+            printf("\t\t\t /|\\  |\n");
+            printf("\t\t\t      |\n");
+            printf("\t\t      |\n");
+            printf("\t\t=========\n");
+            break;
+
+        case 5:
+            printf("\t\t\t  +---+\n");
+            printf("\t\t\t  |   |\n");
+            printf("\t\t\t  O   |\n");
+            printf("\t\t\t /|\\  |\n");
+            printf("\t\t\t /    |\n");
+            printf("\t\t\t      |\n");
+            printf("\t\t\t=========\n");
+            break;
+
+        case 6:
+            printf("\t\t\t  +---+\n");
+            printf("\t\t\t  |   |\n");
+            printf("\t\t\t  O   |\n");
+            printf("\t\t\t /|\\  |\n");
+            printf("\t\t\t / \\  |\n");
+            printf("\t\t\t      |\n");
+            printf("\t\t\t=========\n");
+            break;
+    }
 }

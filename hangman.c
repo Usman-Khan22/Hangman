@@ -72,9 +72,8 @@ void initGuessedWord(char* guessedWord, char* word) {
     int len = strlen(word); 
     for (i = 0; i < len; i++) {
         guessedWord[i] = '_';
-        printf("%c ", guessedWord[i]);
     }
-    guessedWord[len-1] = '\0';
+    guessedWord[len] = '\0';
 }
 
 void printGuessedWord(char* guessedWord) {
@@ -119,8 +118,11 @@ int logic(char* word, char guess, char* guessedWord) {
     }
     if (found == 0) {
         printf("oops! wrong guess\n");
-        printf("%d chances left\n", MAX_ATTEMPTS - wrong_attempts);
+        printf("%d chances left\n", MAX_ATTEMPTS - 1 - wrong_attempts);
         wrong_attempts++;
+    }
+    else {
+        printf("You Guessed right\n");
     }
     
     return wrong_attempts;

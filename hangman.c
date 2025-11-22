@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-# define MAX_ATTEMPTS 6
+#include <ctype.h>
+#define MAX_ATTEMPTS 6
 
 void generateWord(char* word);
 void initGuessedWord(char* guessedWord, char* word);
@@ -26,16 +27,17 @@ int main() {
         guess = checkInput(guessedLetters, word);
         wrong_attempts = logic(word, guess, guessedWord);
         if (strcmp(guessedWord, word) == 0) {
+            printGuessedWord(guessedWord);
             printf("Congratulations! You win\n");
             break;
         }
 
         if (wrong_attempts == MAX_ATTEMPTS) {
             printf("OOPS! You lost\n");
-            printf("The word was: %s", word);
             break;
         }
     }
+    printf("The word was: %s", word);
 
     
 
@@ -97,6 +99,7 @@ char checkInput(char* guessedLetters, char* word) {
 
     printf("Make a guess: ");
     scanf(" %c", &guess);
+    guess = toupper(guess);
     while (strchr(guessedLetters, guess)) {
         printf("You already guessed that letter - Try again: ");
         scanf(" %c", &guess);

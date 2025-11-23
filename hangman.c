@@ -63,12 +63,12 @@ int main() {
 
             if (strcmp(guessedWord, word) == 0) {
                 printGuessedWord(guessedWord);
-                printf("\nCongratulations! You win\n");
+                printf("\nCongratulations! You win ;)\n");
                 break;
             }
 
             if (wrong_attempts == MAX_ATTEMPTS) {
-                printf("\nOOPS! You lost\n");
+                printf("\nOOPS! You lost :(\n");
                 break;
             }
         

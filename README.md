@@ -8,6 +8,7 @@ to practice programming fundamentals.
 - Choose category (Celestial bodies/Counties/Programming Languages)
 - Word list stored in `countries.txt`, `progLang.txt`, and `space.txt`
 - Shows guessed letters and remaining attempts
+- shows hangman figure
 - Simple input validation
 
 ## Concepts Used
